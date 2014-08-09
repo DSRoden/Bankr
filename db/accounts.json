@@ -1,0 +1,4 @@
+{"_id":{"$oid":"53d01ddf4fbbd6de0b530020"}, "name":"bill smith", "type":"savings", "balance":"100.00", "opened":{"$date":"2011-08-05T00:00:00.000-0500"}, "photo":"p1.jpg", "color":"red", "pin":"0000", "transferId": {"$oid": "53d01ddf4fbbd6de0b530013"}, "transactions":[]}
+{"_id":{"$oid":"53d01ddf4fbbd6de0b530020"}, "name":"sara jones", "type":"checking", "balance":"200.00", "opened":{"$date":"2011-09-05T00:00:00.000-0500"}, "photo":"p2.jpg", "color":"blue", "pin":"1111", "transferId":{"$oid": "53d01ddf4fbbd6de0b530012"}, "transactions":[]}
+{"_id":{"$oid":"53d01ddf4fbbd6de0b530020"}, "name":"joe lee", "type":"checking", "balance":"300.00", "opened":{"$date":"2011-10-05T00:00:00.000-0500"}, "photo":"p3.jpg", "color":"orange", "pin":"2222", "trnasferId": {"$oid":"53d01ddf4fbbd6de0b530011"}, "transactions":[]}
+

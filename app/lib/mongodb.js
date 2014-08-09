@@ -1,6 +1,6 @@
 'use strict';
 
-var Mongoclient = require('mongodb'). MongoClient;
+var MongoClient = require('mongodb'). MongoClient;
 
 module.exports = function(name, cb){
   var url = 'mongodb://localhost/' + name;
