@@ -1,0 +1,17 @@
+extends ../shared/template
+block content
+    h1 Accounts
+    table
+      thead
+        tr
+          th name
+          th type
+          th balance
+          th opened
+      tbody
+        each account in accounts
+          tr(style='background-color:#{account.color};')
+            td= account.name
+            td= account.type
+            td= account.balance
+            td= account.opened

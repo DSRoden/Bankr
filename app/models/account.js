@@ -7,7 +7,8 @@ function Account(o){
   this.name           = o.name;
   this.type           = o.type;
   this.balance        = parseFloat(o.balance);
-  this.opened         = new Date(o.opened);
+  //this.opened         = new Date(o.opened);
+  this.opened         = new Date();
   this.photo          = o.photo;
   this.color          = o.color;
   this.pin            = o.pin;
@@ -35,9 +36,12 @@ Account.prototype.addTrans = function(trans, cb){
      this.balance = this.balance - amt - 50;
   }
 
+  } else { this.balance = this.balance;}
+ 
+  //trans.id = this.transactions.length
   this.transactions.push(trans);
-  }else { this.balance = this.balance}
-  cb((this.balance).toFixed(2));
+  this.transactions[this.transactions.length-1].id = this.transactions.length;
+  Account.collection.update({_id: this._id}, {$push:{transactions:trans}}, cb);
   
 };
 
@@ -56,7 +60,6 @@ Account.findById = function(id, cb){
 
   Account.collection.findOne({_id:_id}, function(err, obj){
     var account = changePrototype(obj);
-
     cb(account);
   });
 };

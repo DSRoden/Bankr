@@ -80,6 +80,7 @@ describe('Account', function(){
     var t = {pin: '0000', amt: '100.00', isDeposit: true, isDraw: false};
       a1.addTrans(t, function(){
         expect(a1.balance).to.equal(200.00);
+        expect(a1.transactions).to.have.length(1);
         done();
       });
     });
@@ -88,14 +89,16 @@ describe('Account', function(){
     var t1 = {pin: '1111', amt: '100.00', isDeposit: false, isDraw: true};
       a2.addTrans(t1, function(){
         expect(a2.balance).to.equal(100.00);
+        expect(a2.transactions).to.have.length(1);
         done();
       });
     });
 
-    it('should make no change to the balance of an account', function(done){
+    it('should make no change to the balance of an account with invalid pin', function(done){
     var t2 = {pin: '5697', amt: '100.00', isDeposit: true, isDraw: false};
       a3.addTrans(t2, function(){
         expect(a3.balance).to.equal(300.00);
+        expect(a3.transactions).to.have.length(1);
         done();
       });
     });
@@ -104,6 +107,8 @@ describe('Account', function(){
     var t3 = {pin: '2222', amt: '400.00', isDeposit: false, isDraw: true};
       a3.addTrans(t3, function(){
         expect(a3.balance).to.equal(-150.00);
+        expect(a3.transactions).to.have.length(1);
+        console.log(a3.transactions);
         expect(t3.fee).to.equal(50.00);
         done();
       });

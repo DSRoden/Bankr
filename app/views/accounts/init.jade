@@ -1,0 +1,14 @@
+extends ../shared/template
+block content
+    h1 Add an account!
+    form(method='post', action='/accounts')
+      input(name='name', type='text', placeholder='name', autofocus=true)
+      select(name='type')
+        option(value='checking') Checking
+        option(value='savings') Savings
+      input(name='balance', type='text', placeholder = 'initial balance')
+      input(name='photo', type='text', placeholder = 'url')
+      input(name='color', type='color')
+      input(name='pin', type='text')
+      button Create Account
+
