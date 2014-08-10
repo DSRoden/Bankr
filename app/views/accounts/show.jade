@@ -1,0 +1,27 @@
+extends ../shared/template
+block content
+  h1= account.name
+  a(href='/accounts/#{account._id}/transaction') Add Transaction
+   
+  ul
+    li= account.balance
+    li= account.type
+    li= account.opened
+    li: img(src='#{account.photo}')
+     
+  table
+    thead
+      tr
+        th ID
+        th Date
+        th type
+        th amount
+        th fee
+    tbody
+      each transaction in account.transactions
+        tr
+          td= transaction.id
+          td= transaction.transDate
+          td(style='background-color:#{(transaction.type)};')
+          td= transaction.amt
+          td= transaction.fee

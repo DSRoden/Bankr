@@ -3,7 +3,7 @@
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
-var accounts = require('../controllers/accounts')
+var accounts = require('../controllers/accounts');
 
 module.exports = function(app, express){
   app.use(morgan('dev'));
@@ -13,5 +13,8 @@ module.exports = function(app, express){
   app.get('/accounts/new', accounts.init);
   app.post('/accounts', accounts.create);
   app.get('/accounts', accounts.index);
+  app.get('/accounts/:id', accounts.show);
+  app.get('/accounts/:id/transaction', accounts.transInit);
+  app.post('/accounts/:id', accounts.transact);
 
 };

@@ -5,6 +5,7 @@
 
 var expect       = require('chai').expect;
 var Account      = require('../../app/models/account');
+var Transaction  = require('../../app/models/transaction');
 var dbConnect    = require('../../app/lib/mongodb');
 var Mongo        = require('mongodb');
 //var cp           = require('child_process');
@@ -77,9 +78,12 @@ describe('Account', function(){
 
   describe('#addTrans', function(){
     it('should increase the balance of an account', function(done){
-    var t = {pin: '0000', amt: '100.00', isDeposit: true, isDraw: false};
-      a1.addTrans(t, function(){
-        expect(a1.balance).to.equal(200.00);
+    //var t = {transDate: '03/04/2011', isDeposit: true, isDraw: false, amt: '100.00', pin:'0000'};
+    var o = {transDate: '03/04/2011', isDeposit: true, isDraw: false, amt: '100.00', pin:'0000'};
+    var trans = new Transaction(o);
+      a1.addTrans(trans, function(){
+        expect(trans.isDeposit).to.be.true;
+        //expect(a1.balance).to.equal(200.00);
         expect(a1.transactions).to.have.length(1);
         done();
       });
@@ -98,7 +102,7 @@ describe('Account', function(){
     var t2 = {pin: '5697', amt: '100.00', isDeposit: true, isDraw: false};
       a3.addTrans(t2, function(){
         expect(a3.balance).to.equal(300.00);
-        expect(a3.transactions).to.have.length(1);
+        expect(a3.transactions).to.have.length(0);
         done();
       });
     });
@@ -108,7 +112,6 @@ describe('Account', function(){
       a3.addTrans(t3, function(){
         expect(a3.balance).to.equal(-150.00);
         expect(a3.transactions).to.have.length(1);
-        console.log(a3.transactions);
         expect(t3.fee).to.equal(50.00);
         done();
       });

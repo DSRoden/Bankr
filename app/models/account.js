@@ -2,6 +2,7 @@
 
 var Mongo = require('mongodb');
 var _     = require('lodash');
+var Transaction = require('./transaction');
 
 function Account(o){
   this.name           = o.name;
@@ -25,23 +26,29 @@ Account.prototype.insert = function(cb){
 };
 
 Account.prototype.addTrans = function(trans, cb){
+  console.log(trans.isDeposit);
   if(this.pin === trans.pin){
   var amt = parseFloat(trans.amt);
+
+  this.balance = (trans.type === 'blue') ? (this.balance + amt) : this.balance;
+  this.balance = (trans.type === 'red' && this.balance > amt) ? (this.balance - amt) : this.balance;
+
  
-  this.balance = (trans.isDeposit) ? (this.balance + amt): this.balance;
-  this.balance = (trans.isDraw && this.balance > amt) ? (this.balance - amt) : this.balance;
- 
-  if( trans.isDraw === true && this.balance < amt){
+  if( trans.type === 'red' && (this.balance -  amt) < 0){
      trans.fee = 50;
-     this.balance = this.balance - amt - 50;
+     this.balance = this.balance + (-amt - 50);
   }
 
-  } else { this.balance = this.balance;}
- 
-  //trans.id = this.transactions.length
   this.transactions.push(trans);
   this.transactions[this.transactions.length-1].id = this.transactions.length;
-  Account.collection.update({_id: this._id}, {$push:{transactions:trans}}, cb);
+
+  Account.collection.update({_id:this._id}, {$set: {balance: this.balance}, $push:{transactions:trans}}, cb);
+  } else {Account.collection.update({_id:this._id}, {$set: {balance: this.balance}}, cb);}
+ 
+  //trans.id = this.transactions.length
+  //this.transactions.push(trans);
+  //this.transactions[this.transactions.length-1].id = this.transactions.length;
+   //Account.collection.update({_id:this._id}, {$set: {balance: this.balance}, $push:{transactions:trans}}, cb);
   
 };
 
@@ -68,5 +75,11 @@ module.exports = Account;
 //Private Function
 
 function changePrototype(obj){
-  return _.create(Account.prototype, obj);
+   obj =  _.create(Account.prototype, obj);
+  
+   for(var i = 0; i < obj.transactions.length; i++){
+    obj.transactions[i] = _.create(Transaction.prototype, obj.transactions[i]);
+   }
+
+   return obj;
 }

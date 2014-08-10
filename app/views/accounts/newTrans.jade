@@ -1,0 +1,11 @@
+extends ../shared/template
+block content
+  h1 New Transaction
+  form(method='post', action='/accounts/#{account._id}')
+    label Deposit
+    input(type='radio', name='type', value='blue')
+    label Withdrawal
+    input(type='radio', name='type', value='red')
+    input(name='pin', type='text', placeholder='PIN', autofocus=true)
+    input(name='amt', type='text', placeholder='200')
+    button Transact!

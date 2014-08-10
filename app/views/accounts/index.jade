@@ -11,7 +11,7 @@ block content
       tbody
         each account in accounts
           tr(style='background-color:#{account.color};')
-            td= account.name
+            td: a(href='/accounts/#{account._id}')= account.name
             td= account.type
             td= account.balance
             td= account.opened
