@@ -26,7 +26,6 @@ Account.prototype.insert = function(cb){
 };
 
 Account.prototype.addTrans = function(trans, cb){
-  console.log(trans.isDeposit);
   if(this.pin === trans.pin){
   var amt = parseFloat(trans.amt);
 
